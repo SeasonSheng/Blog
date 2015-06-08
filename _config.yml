@@ -116,7 +116,7 @@ disqus:
 #################################### global configure #######################################
 
 username: SeasonSheng
-baseurl: /StrayBirds
+baseurl: /Blog
 markdown: redcarpet
 safe: false
 highlighter: pygments
