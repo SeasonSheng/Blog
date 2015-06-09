@@ -1,0 +1,23 @@
+在开发过程中,因为各种客观原因，会使用不同版本的Xcode，如5.11. 6.1 6.2等等，而Xcode总是莫名其妙的报错T_T。 这里总结一些坑爹错误解决，简直是本人血泪历程。
+
+1.Xcode6环境下打包静态库，在Xcode5项目中编译报错！
+#####ld: framework not found Metal for architecture armv7
+clang: error: linker command failed with exit code 1 (use -v to see invocation)
+
+下面是我当时搜出的解决方法：
+第一篇博客给出的解释是：使用xcode6编译就可以了。这个是因为使用的三方的.a文件是使用xcode6编译的，使用xcode5编译就会出现这个问题。xcode6会莫名其妙的链接Metal.framework
+[http://blog.sina.com.cn/s/blog_8d663a9c0102v63c.html](http://blog.sina.com.cn/s/blog_8d663a9c0102v63c.html)
+
+但是我公司的项目里只能用Xcode 5编译，所以还是没解决。终于找到外国友人的答案了。
+[https://www.appsee.com/blog/dev/xcode-new-link-frameworks-automatically-fix-framework-not-found-metal-for-architecture-armv7](https://www.appsee.com/blog/dev/xcode-new-link-frameworks-automatically-fix-framework-not-found-metal-for-architecture-armv7) 
+
+The reason behind this, is actually a bug / bad design by Apple, which failed to preserve backward compatibility for non-Metal devices (namely: armv7 & armv7s).
+In XCode 5, Apple introduced a new linker flag, named “Link Frameworks Automatically”, which defaults to “YES”. The purpose of this flag is to reduce the effort required by developers when adding a framework. Before the introduction of this flag, developers had to link their projects with system frameworks prior to using them. This flag allows them to simply use the frameworks.
+
+  打包静态库的时候，有一个Link Frameworks Automatically设置，默认为YES，会自动链接框架。所以Xcode 6打包的静态库.a文件，在Xcode 5项目编译时候会提示找不到Metal的。 
+
+正确的解决方法：打包静态库时，Build Settings 中 Link Frameworks Automatically  把默认Yes  改成 No!  静态库就不会自动链接Metal了。
+
+
+
+ 
