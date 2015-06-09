@@ -1,3 +1,10 @@
+---
+layout: post
+title: Xcode编译报错(不定时更新)
+comments: true
+category: iOS
+---
+
 在开发过程中,因为各种客观原因，会使用不同版本的Xcode，如5.11. 6.1 6.2等等，而Xcode总是莫名其妙的报错T_T。 这里总结一些坑爹错误解决，简直是本人血泪历程。
 
 1.Xcode6环境下打包静态库，在Xcode5项目中编译报错！
